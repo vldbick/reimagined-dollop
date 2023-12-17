@@ -4,14 +4,17 @@ import { responseMiddleware } from "../middlewares/response.middleware.js";
 
 const router = Router();
 
+
 router.post(
   "/login",
-  (req, res, next) => {
+  async (req, res, next) => {
     try {
-      // TODO: Implement login action (get the user if it exist with entered credentials)
-      res.data = data;
+      const userData = req.body; 
+
+      const user = await authService.login(userData);
+      res.data = user;
     } catch (err) {
-      res.err = err;
+      res.err = err.message || "Authentication failed";
     } finally {
       next();
     }
